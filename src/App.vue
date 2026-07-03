@@ -1,18 +1,27 @@
 <script setup>
 import {ref, markRaw} from 'vue'
 import BankAccount from '@/classes/BankAccount.js'
+import SavingsAccount from '@/classes/SavingsAccount.js'
+import {AccountType} from "@/enums/AccountType.js";
 import CreateAccount from '@/components/CreateAccount.vue'
 import AccountPanel from '@/components/AccountPanel.vue'
 
 const accounts = ref([])
 const error = ref('')
 
-function createAccount(owner, initBalance) {
+function createAccount(data) {
   error.value = ''
 
   try {
-    const account = markRaw(new BankAccount(owner, initBalance))
-    accounts.value = [...accounts.value, account]
+    let account;
+
+    if (data.type === AccountType.SAVINGS) {
+      account = new SavingsAccount(data.owner, data.initialBalance, data.interestRate)
+    } else {
+      account = new BankAccount(data.owner, data.initialBalance)
+    }
+
+    accounts.value = [...accounts.value, markRaw(account)]
   } catch (err) {
     error.value = err.message
   }
