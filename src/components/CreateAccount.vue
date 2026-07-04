@@ -1,11 +1,12 @@
 <script setup>
 import {ref} from 'vue'
+import {AccountType} from "@/enums/AccountType.js";
 
 const emit = defineEmits(['create'])
 
 const owner = ref('')
 const initBalance = ref('')
-const accountType = ref('basic')
+const accountType = ref(AccountType.BASIC)
 const interestRate = ref(0.5)
 const error = ref('')
 
@@ -21,7 +22,7 @@ function create() {
     })
     owner.value = ''
     initBalance.value = ''
-    accountType.value = 'basic'
+    accountType.value = AccountType.BASIC
     interestRate.value = 0.5
   } catch (err) {
     error.value = err.message
@@ -38,13 +39,17 @@ function create() {
     <input type="number" v-model="initBalance" placeholder="Initial balance"/>
 
     <select v-model="accountType">
-      <option value="basic">Basic Account</option>
-
-      <option value="savings">Savings Account</option>
+      <option
+          v-for="(item , index) in AccountType"
+          :key="index"
+          :value="item"
+      >
+        {{ item }}
+      </option>
     </select>
 
     <input
-        v-if="accountType === 'savings'"
+        v-if="accountType === AccountType.SAVINGS"
         type="number"
         v-model="interestRate"
         placeholder="Interest Rate 0.05"

@@ -1,6 +1,7 @@
 <script setup>
 import {ref, computed} from 'vue'
 import SavingsAccount from '@/classes/SavingsAccount.js'
+import BankAccount from "@/classes/BankAccount.js";
 
 const props = defineProps({
   account: {
@@ -15,24 +16,15 @@ const isSavings = computed(function () {
 
 const amount = ref('')
 const error = ref('')
-const historyVersion = ref(0)
 
-const balance = computed(function () {
-  historyVersion.value
-  return props.account.getBalance()
-})
-
-const history = computed(function () {
-  historyVersion.value
-  return props.account.getHistory()
-})
-
+const balance = ref(props.account.getBalance())
+const history = ref(props.account.getHistory())
 
 function applyInterest() {
   error.value = ''
   try {
     props.account.applyInterest()
-    historyVersion.value++
+
   } catch (err) {
     error.value = err.message
   }
@@ -44,7 +36,8 @@ function deposit() {
   try {
     props.account.deposit(Number(amount.value))
     amount.value = ''
-    historyVersion.value++
+    balance.value = props.account.getBalance();
+    history.value = props.account.getHistory();
   } catch (err) {
     error.value = err.message
   }
@@ -56,7 +49,8 @@ function withdraw() {
   try {
     props.account.withdraw(Number(amount.value))
     amount.value = ''
-    historyVersion.value++
+    balance.value = props.account.getBalance();
+    history.value = props.account.getHistory();
   } catch (err) {
     error.value = err.message
   }

@@ -2,6 +2,7 @@
 import {ref, markRaw} from 'vue'
 import BankAccount from '@/classes/BankAccount.js'
 import SavingsAccount from '@/classes/SavingsAccount.js'
+import {AccountType} from "@/enums/AccountType.js";
 import CreateAccount from '@/components/CreateAccount.vue'
 import AccountPanel from '@/components/AccountPanel.vue'
 
@@ -14,7 +15,7 @@ function createAccount(data) {
   try {
     let account;
 
-    if (data.type === 'savings') {
+    if (data.type === AccountType.SAVINGS) {
       account = new SavingsAccount(data.owner, data.initialBalance, data.interestRate)
     } else {
       account = new BankAccount(data.owner, data.initialBalance)
@@ -26,7 +27,7 @@ function createAccount(data) {
   }
 }
 </script>
-0
+
 <template>
   <div class="app">
     <h1>Bank</h1>

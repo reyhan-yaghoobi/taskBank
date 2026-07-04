@@ -2,11 +2,11 @@ export default class BankAccount {
     #balance = 0;
 
     constructor(owner, initialBalance = 0) {
-        if (!owner ) {
+        if (!owner) {
             throw new Error('owner must be a string')
         }
 
-        if ( initialBalance < 0) {
+        if (initialBalance < 0) {
             throw new Error('initial balance must be a positive number')
         }
 
@@ -21,7 +21,7 @@ export default class BankAccount {
         }
 
         this.#balance += amount
-        this.#addHistory('deposit', amount)
+        this.#addHistory('deposit', amount);
     }
 
     withdraw(amount) {
@@ -34,11 +34,11 @@ export default class BankAccount {
         }
 
         this.#balance -= amount
-        this.#addHistory('withdraw', amount)
+        this.#addHistory('withdraw', amount);
     }
 
     getBalance() {
-        return this.#balance
+        return this.#balance;
     }
 
     getHistory() {

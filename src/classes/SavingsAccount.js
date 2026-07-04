@@ -5,6 +5,8 @@ export default class SavingsAccount extends BankAccount {
     constructor(owner, initialBalance = 0, interestRate = 0.5) {
         super(owner, initialBalance)
 
+        this.account = BankAccount;
+
         this.interestRate = interestRate
     }
 
